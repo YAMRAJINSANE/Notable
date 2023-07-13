@@ -1,11 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import BottomNav from './nav/bottom/BottomNav';
+import HomeStack from './nav/Stack/SttackNavigator';
 export default function App() {
   return (
     <NavigationContainer>
-<BottomNav/>
+<HomeStack/>
     </NavigationContainer>
 
   );
