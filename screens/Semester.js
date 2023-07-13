@@ -13,13 +13,40 @@ import {
   Urbanist_800ExtraBold,
   Urbanist_900Black,
 } from "@expo-google-fonts/urbanist";
+import client from "../Sanity/Sanity";
 
 const numColumns = 2;
 
 const Semester = ({ route, navigation }) => {
-  const { data } = route.params;
+  const { data, Post, id } = route.params;
 
   const [columnWidth, setColumnWidth] = useState(0);
+
+  const [PostFetched, setPostFetched] = useState([]);
+  const [CategoryFetch, setCategoryFetch] = useState([]);
+  const [Loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
+
+  const filteredData = Post.filter((obj) => obj.course.name === data);
+
+  useEffect(() => {
+    const uniqueSemesters = [];
+    const semesterTitles = new Set();
+
+    filteredData.forEach((obj) => {
+      if (!semesterTitles.has(obj.semester.title)) {
+        semesterTitles.add(obj.semester.title);
+        uniqueSemesters.push({
+          id: obj.semester._id,
+          title: obj.semester.title,
+        });
+      }
+    });
+    setPostFetched(uniqueSemesters);
+  }, []);
+
+  console.log(PostFetched);
+  // const filteredData = postData.filter((item) => item._id === id);
 
   useEffect(() => {
     setColumnWidth(SIZES.width / numColumns);
@@ -68,14 +95,19 @@ const Semester = ({ route, navigation }) => {
         }}
       >
         <FlatList
-          data={Sem}
+          data={PostFetched}
           numColumns={2}
           showsVerticalScrollIndicator={false}
           renderItem={({ item }) => {
             return (
               <Pressable
                 onPress={() =>
-                  navigation.navigate("Subject", { data: item.Year, nav: data })
+                  navigation.navigate("Subject", {
+                    data: item.title,
+                    nav: data,
+                    Post: Post,
+                    id: item._id,
+                  })
                 }
               >
                 <View
@@ -108,7 +140,7 @@ const Semester = ({ route, navigation }) => {
                           fontSize: 20,
                         }}
                       >
-                        Sem {item.Year}
+                        {item.title}
                       </Text>
                     </View>
                   </View>

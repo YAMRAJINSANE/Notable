@@ -22,8 +22,30 @@ import {
 } from "@expo-google-fonts/urbanist";
 
 const Subject = ({ route, navigation }) => {
-  const { data, nav } = route.params;
+  const { data, nav, Post, id } = route.params;
 
+  const filteredData = Post.filter(
+    (obj) => obj.course.name === "Commerce" && obj.semester.title === data
+  );
+
+  const [PostFetched, setPostFetched] = useState([]);
+
+  useEffect(() => {
+    const uniqueSubjects = [];
+    const subjectIds = new Set();
+
+    filteredData.forEach((obj) => {
+      if (!subjectIds.has(obj.subject._id)) {
+        subjectIds.add(obj.subject._id);
+        uniqueSubjects.push({ id: obj.subject._id, name: obj.subject.name });
+      }
+    });
+    setPostFetched(uniqueSubjects);
+  }, []);
+
+  console.log("]]]]]]]]]]]]]]]]]]]]]]");
+  console.log(PostFetched);
+  console.log("]]]]]]]]]]]]]]]]]]]]]]");
   const BillBord = `${nav}/${data}`;
 
   let [fontsLoaded] = useFonts({
@@ -35,12 +57,6 @@ const Subject = ({ route, navigation }) => {
     Urbanist_900Black,
   });
 
-  const Data = [
-    { Course: "Science" },
-    { Course: "Commerce" },
-    { Course: "Arts" },
-    { Course: "Additional Courses" },
-  ];
   if (!fontsLoaded) {
     return (
       <View
@@ -79,16 +95,18 @@ const Subject = ({ route, navigation }) => {
           flex: 1,
         }}
       >
-        <FlatList
-          data={Data}
+        {/* <FlatList
+          data={PostFetched}
           showsVerticalScrollIndicator={false}
           renderItem={({ item }) => {
             return (
               <Pressable
                 onPress={() =>
                   navigation.navigate("NotesCategory", {
-                    data: item.Course,
+                    data: item.subject.name,
                     BillBord: BillBord,
+                    Post: Post,
+                    id: item.subject._id,
                   })
                 }
               >
@@ -110,7 +128,7 @@ const Subject = ({ route, navigation }) => {
                         fontSize: 18,
                       }}
                     >
-                      {item.Course}
+                      {item.subject.name}
                     </Text>
                   </View>
                   <MaterialIcons name="navigate-next" size={22} color="black" />
@@ -118,7 +136,7 @@ const Subject = ({ route, navigation }) => {
               </Pressable>
             );
           }}
-        />
+        /> */}
       </View>
     </SafeAreaView>
   );

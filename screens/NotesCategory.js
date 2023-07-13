@@ -17,7 +17,9 @@ import {
 const numColumns = 2;
 
 const NotesCategory = ({ route, navigation }) => {
-  const { data, BillBord } = route.params;
+  const { data, BillBord, Post, id } = route.params;
+
+  const filteredData = Post.filter((item) => item.subject._id === id);
 
   const Bill = `${BillBord}/${data}`;
   const [columnWidth, setColumnWidth] = useState(0);
@@ -63,7 +65,7 @@ const NotesCategory = ({ route, navigation }) => {
         }}
       >
         <FlatList
-          data={Sem}
+          data={filteredData}
           numColumns={2}
           showsVerticalScrollIndicator={false}
           renderItem={({ item }) => {
@@ -103,7 +105,7 @@ const NotesCategory = ({ route, navigation }) => {
                           fontSize: 15,
                         }}
                       >
-                        {item.Year}
+                        {item.category.title}
                       </Text>
                     </View>
                   </View>

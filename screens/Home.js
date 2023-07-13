@@ -6,7 +6,7 @@ import {
   FlatList,
   Pressable,
 } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { COLORS } from "../constant";
 import Entypo from "react-native-vector-icons/Entypo";
 import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
@@ -22,8 +22,72 @@ import {
 } from "@expo-google-fonts/urbanist";
 import { SafeAreaView } from "react-native";
 import { Linking } from "react-native";
+import client from "../Sanity/Sanity";
 
 const Home = ({ navigation }) => {
+  const [PostFetched, setPostFetched] = useState([]);
+  const [CategoryFetch, setCategoryFetch] = useState([]);
+  const [Loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
+
+  const fetchData = async () => {
+    try {
+      const postPromise = client.fetch(`
+        *[_type == "post"] |
+        order(_createdAt desc) [0..20] {
+          _id,
+          title,
+          category->{
+            _id,
+            title
+          },
+          subject->{
+            _id,
+            name
+          },
+          semester->{
+            _id,
+            title
+          },
+          course->{
+            _id,
+            name
+          },
+         
+          uploadDate,
+          url
+        }
+      `);
+
+      const coursePromise = client.fetch(`
+        *[_type == "course"] |
+        order(_createdAt) {
+          _id,
+         name,
+        
+        }
+      `);
+
+      const [postData, categoryData] = await Promise.all([
+        postPromise,
+        coursePromise,
+      ]);
+      console.log(postData);
+      setPostFetched(postData);
+      setCategoryFetch(categoryData);
+
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  console.log(PostFetched);
+
   let [fontsLoaded] = useFonts({
     Urbanist_400Regular,
     Urbanist_500Medium,
@@ -145,13 +209,17 @@ const Home = ({ navigation }) => {
         }}
       >
         <FlatList
-          data={Data}
+          data={CategoryFetch}
           showsVerticalScrollIndicator={false}
           renderItem={({ item }) => {
             return (
               <Pressable
                 onPress={() =>
-                  navigation.navigate("Semester", { data: item.Course })
+                  navigation.navigate("Semester", {
+                    data: item.name,
+                    Post: PostFetched,
+                    id: item._id,
+                  })
                 }
               >
                 <View
@@ -172,7 +240,7 @@ const Home = ({ navigation }) => {
                         fontSize: 18,
                       }}
                     >
-                      {item.Course}
+                      {item.name}
                     </Text>
                   </View>
                   <MaterialIcons name="navigate-next" size={22} color="black" />
