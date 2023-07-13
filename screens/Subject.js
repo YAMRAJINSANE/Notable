@@ -22,10 +22,10 @@ import {
 } from "@expo-google-fonts/urbanist";
 
 const Subject = ({ route, navigation }) => {
-  const { data, nav, Post, id } = route.params;
+  const { data, nav, Post, id, course } = route.params;
 
   const filteredData = Post.filter(
-    (obj) => obj.course.name === "Commerce" && obj.semester.title === data
+    (obj) => obj.course.name === course && obj.semester.title === data
   );
 
   const [PostFetched, setPostFetched] = useState([]);
@@ -46,6 +46,7 @@ const Subject = ({ route, navigation }) => {
   console.log("]]]]]]]]]]]]]]]]]]]]]]");
   console.log(PostFetched);
   console.log("]]]]]]]]]]]]]]]]]]]]]]");
+
   const BillBord = `${nav}/${data}`;
 
   let [fontsLoaded] = useFonts({
@@ -95,7 +96,7 @@ const Subject = ({ route, navigation }) => {
           flex: 1,
         }}
       >
-        {/* <FlatList
+        <FlatList
           data={PostFetched}
           showsVerticalScrollIndicator={false}
           renderItem={({ item }) => {
@@ -103,10 +104,11 @@ const Subject = ({ route, navigation }) => {
               <Pressable
                 onPress={() =>
                   navigation.navigate("NotesCategory", {
-                    data: item.subject.name,
-                    BillBord: BillBord,
+                    course: course,
                     Post: Post,
-                    id: item.subject._id,
+                    subject: item.name,
+                    data: data,
+                    BillBord: BillBord,
                   })
                 }
               >
@@ -128,7 +130,7 @@ const Subject = ({ route, navigation }) => {
                         fontSize: 18,
                       }}
                     >
-                      {item.subject.name}
+                      {item.name}
                     </Text>
                   </View>
                   <MaterialIcons name="navigate-next" size={22} color="black" />
@@ -136,7 +138,7 @@ const Subject = ({ route, navigation }) => {
               </Pressable>
             );
           }}
-        /> */}
+        />
       </View>
     </SafeAreaView>
   );

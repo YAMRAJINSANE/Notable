@@ -20,6 +20,7 @@ import Semester from "../../screens/Semester";
 import Subject from "../../screens/Subject";
 import NotesCategory from "../../screens/NotesCategory";
 import NotesDetail from "../../screens/NotesDetail";
+import Uplaod from "../../screens/Uplaod";
 
 const Stack = createStackNavigator();
 
@@ -109,6 +110,17 @@ function HomeStack() {
         }}
         name="NotesDetail"
         component={NotesDetail}
+      />
+      <Stack.Screen
+        options={{
+          title: "Notable",
+          headerShown: true,
+          headerTitleStyle: {
+            fontFamily: "Urbanist_900Black",
+          },
+        }}
+        name="Uplaod"
+        component={Uplaod}
       />
     </Stack.Navigator>
   );

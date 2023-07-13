@@ -1,4 +1,11 @@
-import { View, Text, SafeAreaView, FlatList, Pressable } from "react-native";
+import {
+  View,
+  Text,
+  SafeAreaView,
+  FlatList,
+  Pressable,
+  Image,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import { COLORS, SIZES } from "../constant";
 import Entypo from "react-native-vector-icons/Entypo";
@@ -41,6 +48,21 @@ const Semester = ({ route, navigation }) => {
           title: obj.semester.title,
         });
       }
+    });
+
+    // Define the custom sorting order
+    const sortingOrder = [
+      "Sem I",
+      "Sem II",
+      "Sem III",
+      "Sem IV",
+      "Sem V",
+      "Sem VI",
+    ]; // Add more semesters as needed
+
+    // Sort the unique semester objects
+    uniqueSemesters.sort((a, b) => {
+      return sortingOrder.indexOf(a.title) - sortingOrder.indexOf(b.title);
     });
     setPostFetched(uniqueSemesters);
   }, []);
@@ -107,6 +129,7 @@ const Semester = ({ route, navigation }) => {
                     nav: data,
                     Post: Post,
                     id: item._id,
+                    course: data,
                   })
                 }
               >
@@ -129,15 +152,20 @@ const Semester = ({ route, navigation }) => {
                     className=" rounded-md flex justify-center items-center py-5    px-4"
                   >
                     <View className=" flex flex-col items-center  ">
-                      <SimpleLineIcons
+                      {/* <SimpleLineIcons
                         name="ios-library-outline"
                         size={40}
                         color="black"
+                      /> */}
+                      <Image
+                        source={require("../assets/sem.png")}
+                        className="w-[100px] h-[100px] aspect-auto "
+                        resizeMode="contain"
                       />
                       <Text
                         style={{
-                          fontFamily: "Urbanist_600SemiBold",
-                          fontSize: 20,
+                          fontFamily: "Urbanist_700Bold",
+                          fontSize: 17,
                         }}
                       >
                         {item.title}

@@ -17,11 +17,35 @@ import {
 const numColumns = 2;
 
 const NotesCategory = ({ route, navigation }) => {
-  const { data, BillBord, Post, id } = route.params;
+  const { data, BillBord, Post, id, course, subject } = route.params;
 
-  const filteredData = Post.filter((item) => item.subject._id === id);
+  const filteredData = Post.filter(
+    (obj) =>
+      obj.semester.title === data &&
+      obj.course.name === course &&
+      obj.subject.name === subject
+  );
+  const [PostFetched, setPostFetched] = useState([]);
 
-  const Bill = `${BillBord}/${data}`;
+  useEffect(() => {
+    const uniqueCategories = [];
+    const categoryIds = new Set();
+
+    filteredData.forEach((obj) => {
+      if (!categoryIds.has(obj.category._id)) {
+        categoryIds.add(obj.category._id);
+        uniqueCategories.push({
+          id: obj.category._id,
+          title: obj.category.title,
+        });
+      }
+    });
+    setPostFetched(uniqueCategories);
+  }, []);
+
+  console.log(PostFetched);
+  const Bill = `${BillBord}/${subject}`;
+
   const [columnWidth, setColumnWidth] = useState(0);
 
   useEffect(() => {
@@ -65,14 +89,21 @@ const NotesCategory = ({ route, navigation }) => {
         }}
       >
         <FlatList
-          data={filteredData}
+          data={PostFetched}
           numColumns={2}
           showsVerticalScrollIndicator={false}
           renderItem={({ item }) => {
             return (
               <Pressable
                 onPress={() =>
-                  navigation.navigate("NotesDetail", { data: item.Year })
+                  navigation.navigate("NotesDetail", {
+                    course: course,
+                    Post: Post,
+                    subject: subject,
+                    data: data,
+                    BillBord: Bill,
+                    category: item.title,
+                  })
                 }
               >
                 <View
@@ -105,7 +136,7 @@ const NotesCategory = ({ route, navigation }) => {
                           fontSize: 15,
                         }}
                       >
-                        {item.category.title}
+                        {item.title}
                       </Text>
                     </View>
                   </View>

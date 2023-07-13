@@ -5,6 +5,8 @@ import {
   FlatList,
   Pressable,
   ActivityIndicator,
+  Linking,
+  TouchableOpacity,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { COLORS, SIZES } from "../constant";
@@ -22,7 +24,18 @@ import {
 } from "@expo-google-fonts/urbanist";
 
 const NotesDetail = ({ route }) => {
-  const { data } = route.params;
+  const { data, BillBord, Post, id, course, subject, category } = route.params;
+
+  const filteredData = Post.filter(
+    (obj) =>
+      obj.semester.title === data &&
+      obj.course.name === course &&
+      obj.subject.name === subject &&
+      obj.category.title === category
+  );
+  console.log("////////////////////");
+  console.log(filteredData);
+  console.log("////////////////////");
 
   let [fontsLoaded] = useFonts({
     Urbanist_400Regular,
@@ -98,11 +111,23 @@ const NotesDetail = ({ route }) => {
         }}
       >
         <FlatList
-          data={Data}
+          data={filteredData}
           showsVerticalScrollIndicator={false}
           renderItem={({ item }) => {
+            const publishedAt = new Date(item.uploadDate).toLocaleString(
+              "en-US",
+              {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              }
+            );
+            const slicedTitle =
+              item.title.length > 60
+                ? item.title.slice(0, 60) + "..."
+                : item.title;
             return (
-              <Pressable>
+              <TouchableOpacity onPress={() => Linking.openURL(item.url)}>
                 <View
                   style={{
                     borderWidth: 2,
@@ -113,7 +138,7 @@ const NotesDetail = ({ route }) => {
                   className=" rounded-md flex flex-row justify-between items-center py-5  px-4"
                 >
                   <View className=" flex flex-row items-center w-full   ">
-                    <SimpleLineIcons name="notebook" size={80} color="black" />
+                    <SimpleLineIcons name="notebook" size={70} color="black" />
 
                     <View className=" flex flex-col  w-[70%] ">
                       <Text
@@ -123,19 +148,34 @@ const NotesDetail = ({ route }) => {
                           fontSize: 18,
                         }}
                       >
-                        {item.title}
+                        {slicedTitle}
                       </Text>
                       <View style={{}}>
-                        <Text>• {item.SUBJECT}</Text>
+                        <Text style={{ fontFamily: "Urbanist_500Medium" }}>
+                          • {item.subject.name}
+                        </Text>
+
                         <View className="flex justify-between items-center flex-row">
-                          <Text>• Sem {item.SEM}</Text>
-                          <Text>• {item.Category}</Text>
+                          <Text style={{ fontFamily: "Urbanist_500Medium" }}>
+                            • {item.semester.title}
+                          </Text>
+                          <Text style={{ fontFamily: "Urbanist_500Medium" }}>
+                            • {item.category.title}
+                          </Text>
                         </View>
+                        <Text
+                          style={{
+                            fontFamily: "Urbanist_500Medium",
+                            fontSize: 11,
+                          }}
+                        >
+                          • Upload Date {publishedAt}
+                        </Text>
                       </View>
                     </View>
                   </View>
                 </View>
-              </Pressable>
+              </TouchableOpacity>
             );
           }}
         />
