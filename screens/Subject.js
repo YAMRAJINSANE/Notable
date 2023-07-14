@@ -24,6 +24,7 @@ import {
 const Subject = ({ route, navigation }) => {
   const { data, nav, Post, id, course } = route.params;
 
+  console.log(Post);
   const filteredData = Post.filter(
     (obj) => obj.course.name === course && obj.semester.title === data
   );

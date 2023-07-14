@@ -1,4 +1,11 @@
-import { View, Text, SafeAreaView, FlatList, Pressable } from "react-native";
+import {
+  View,
+  Text,
+  SafeAreaView,
+  FlatList,
+  Pressable,
+  ActivityIndicator,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import { COLORS, SIZES } from "../constant";
 import Entypo from "react-native-vector-icons/Entypo";
@@ -65,6 +72,29 @@ const NotesCategory = ({ route, navigation }) => {
       Year: "Study Material",
     },
   ];
+
+  let [fontsLoaded] = useFonts({
+    Urbanist_400Regular,
+    Urbanist_500Medium,
+    Urbanist_600SemiBold,
+    Urbanist_700Bold,
+    Urbanist_800ExtraBold,
+    Urbanist_900Black,
+  });
+
+  if (!fontsLoaded) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <ActivityIndicator size="small" />
+      </View>
+    );
+  }
   return (
     <SafeAreaView
       style={{
@@ -133,7 +163,7 @@ const NotesCategory = ({ route, navigation }) => {
                       <Text
                         style={{
                           fontFamily: "Urbanist_600SemiBold",
-                          fontSize: 15,
+                          fontSize: 16,
                         }}
                       >
                         {item.title}

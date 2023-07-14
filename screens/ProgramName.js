@@ -2,26 +2,26 @@ import { View, Text } from "react-native";
 import React, { useEffect, useState } from "react";
 import { WebView } from "react-native-webview";
 import LoadingScreen from "./Loading";
+
 const ProgramName = ({ route }) => {
   const { Url } = route.params;
-
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
-
-    return () => clearTimeout(timer);
-  }, []);
+  const onLoadEnd = () => {
+    setIsLoading(false);
+  };
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, backgroundColor: "white" }}>
       {isLoading ? (
-        <LoadingScreen />
-      ) : (
-        <WebView style={{ flex: 1, width: "100%" }} source={{ uri: Url }} />
-      )}
+        <LoadingScreen /> // Render loading screen while WebView is loading
+      ) : null}
+
+      <WebView
+        style={{ flex: 1, width: "100%", opacity: isLoading ? 0 : 1 }}
+        source={{ uri: Url }}
+        onLoadEnd={onLoadEnd}
+      />
     </View>
   );
 };

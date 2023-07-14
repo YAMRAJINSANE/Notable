@@ -54,8 +54,13 @@ const Home = ({ navigation }) => {
             name
           },
          community->{
-            _id,
-            name
+                _id,
+                name,
+                 image,
+                description,
+                profileURL,
+                sem,
+                colllege
           },
           uploadDate,
           url

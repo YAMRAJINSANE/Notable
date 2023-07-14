@@ -22,6 +22,7 @@ import {
   Urbanist_800ExtraBold,
   Urbanist_900Black,
 } from "@expo-google-fonts/urbanist";
+import { urlFor } from "../Sanity/Sanity";
 
 const NotesDetail = ({ route, navigation }) => {
   const { data, BillBord, Post, id, course, subject, category } = route.params;
@@ -46,38 +47,6 @@ const NotesDetail = ({ route, navigation }) => {
     Urbanist_900Black,
   });
 
-  const Data = [
-    {
-      title: "Science Pyq 2022 fjkg fkgjadf kkjdkfjgkdaj kfjg  ",
-      Category: "PYQ",
-      SEM: "I",
-      SUBJECT: "Financial Literacy",
-    },
-    {
-      title: "Science Pyq 2022 ",
-      Category: "PYQ",
-      SEM: "I",
-      SUBJECT: "Financial Literacy",
-    },
-    {
-      title: "Science Pyq 2022 ",
-      Category: "PYQ",
-      SEM: "I",
-      SUBJECT: "Financial Literacy",
-    },
-    {
-      title: "Science Pyq 2022 ",
-      Category: "PYQ",
-      SEM: "I",
-      SUBJECT: "Financial Literacy",
-    },
-    {
-      title: "Science Pyq 2022 ",
-      Category: "PYQ",
-      SEM: "I",
-      SUBJECT: "Financial Literacy",
-    },
-  ];
   if (!fontsLoaded) {
     return (
       <View
@@ -142,39 +111,81 @@ const NotesDetail = ({ route, navigation }) => {
                   className=" rounded-md flex flex-row justify-between items-center py-5  px-4"
                 >
                   <View className=" flex flex-row items-center w-full   ">
-                    <SimpleLineIcons name="notebook" size={70} color="black" />
+                    <SimpleLineIcons name="notebook" size={80} color="black" />
 
                     <View className=" flex flex-col  w-[70%] ">
                       <Text
                         className="ml-1 "
                         style={{
-                          fontFamily: "Urbanist_600SemiBold",
+                          fontFamily: "Urbanist_700Bold",
                           fontSize: 18,
                         }}
                       >
                         {slicedTitle}
                       </Text>
                       <View style={{}}>
-                        <Text style={{ fontFamily: "Urbanist_500Medium" }}>
+                        <Text
+                          style={{
+                            fontFamily: "Urbanist_700Bold",
+                            fontSize: 12,
+                          }}
+                        >
                           • {item.subject.name}
                         </Text>
 
                         <View className="flex justify-between items-center flex-row">
-                          <Text style={{ fontFamily: "Urbanist_500Medium" }}>
+                          <Text
+                            style={{
+                              fontFamily: "Urbanist_700Bold",
+                              fontSize: 12,
+                            }}
+                          >
                             • {item.semester.title}
                           </Text>
-                          <Text style={{ fontFamily: "Urbanist_500Medium" }}>
+                          <Text
+                            style={{
+                              fontFamily: "Urbanist_700Bold",
+                              fontSize: 12,
+                            }}
+                          >
                             • {item.category.title}
                           </Text>
                         </View>
                         <Text
                           style={{
-                            fontFamily: "Urbanist_500Medium",
-                            fontSize: 11,
+                            fontFamily: "Urbanist_700Bold",
+                            fontSize: 12,
                           }}
                         >
                           • Upload Date {publishedAt}
                         </Text>
+                        <Pressable
+                          onPress={() =>
+                            navigation.navigate("CommPerson", {
+                              name: item.community.name,
+                              description: item.community.description,
+                              profileURL: item.community.profileURL,
+                              id: item.community._id,
+                              imageUri: urlFor(item.community.image).url(),
+                              colllege: item.community.colllege,
+                              sem: item.community.sem,
+                            })
+                          }
+                          className="flex justify-end items-end mt-2 w-full"
+                        >
+                          <Text
+                            style={{
+                              fontFamily: "Urbanist_700Bold",
+                              fontSize: 10,
+                              borderWidth: 1,
+                              borderColor: "black",
+                              borderRadius: 10,
+                              padding: 6,
+                            }}
+                          >
+                            By - {item.community.name}
+                          </Text>
+                        </Pressable>
                       </View>
                     </View>
                   </View>

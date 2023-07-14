@@ -5,14 +5,26 @@ import {
   Image,
   Button,
   ScrollView,
+  Pressable,
 } from "react-native";
 import React from "react";
 import { SIZES } from "../constant";
+import { Linking } from "react-native";
+import {
+  useFonts,
+  Roboto_500Medium,
+  Roboto_500Medium_Italic,
+  Roboto_700Bold,
+  Roboto_700Bold_Italic,
+  Roboto_900Black,
+  Roboto_900Black_Italic,
+} from "@expo-google-fonts/roboto";
 
 const CommPerson = ({ route }) => {
   const { name, description, profileURL, id, imageUri, colllege, sem } =
     route.params;
   console.log(name, description, profileURL, id, imageUri, colllege, sem);
+
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <SafeAreaView
@@ -64,19 +76,21 @@ const CommPerson = ({ route }) => {
           }}
           className="w-full px-5  h-[.5px] bg-gray-600"
         />
-        <View
-          style={{
-            width: SIZES.width - 50,
-          }}
-          className=" w-full  flex justify-center items-center  mt-5 text-xl text-white  py-4 bg-black rounded-md mx-24 "
-        >
-          <Text
-            className=" text-xl text-white "
-            style={{ fontFamily: "Urbanist_700Bold" }}
+        <Pressable onPress={() => Linking.openURL(profileURL)}>
+          <View
+            style={{
+              width: SIZES.width - 50,
+            }}
+            className=" w-full  flex justify-center items-center  mt-5 text-xl text-white  py-4 bg-black rounded-md mx-24 "
           >
-            Connect
-          </Text>
-        </View>
+            <Text
+              className=" text-xl text-white "
+              style={{ fontFamily: "Urbanist_700Bold" }}
+            >
+              Connect
+            </Text>
+          </View>
+        </Pressable>
       </SafeAreaView>
     </ScrollView>
   );

@@ -91,11 +91,19 @@ const Uplaod = () => {
           <Text
             style={{
               fontFamily: "Urbanist_900Black",
-              fontSize: 25,
+              fontSize: 20,
               marginTop: 20,
             }}
           >
-            To Uplaod Notes
+            Upload Notes
+          </Text>
+          <Text
+            style={{
+              fontFamily: "Urbanist_900Black",
+              fontSize: 20,
+            }}
+          >
+            & Be a Part of Our Community.
           </Text>
           <Text style={{ fontFamily: "Urbanist_500Medium", fontSize: 15 }}>
             Submit your notes on this Form

@@ -5,6 +5,7 @@ import {
   FlatList,
   Pressable,
   Image,
+  ActivityIndicator,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { COLORS, SIZES } from "../constant";
@@ -73,26 +74,29 @@ const Semester = ({ route, navigation }) => {
   useEffect(() => {
     setColumnWidth(SIZES.width / numColumns);
   }, []);
-  const Sem = [
-    {
-      Year: "I",
-    },
-    {
-      Year: "II",
-    },
-    {
-      Year: "III",
-    },
-    {
-      Year: "IV",
-    },
-    {
-      Year: "V",
-    },
-    {
-      Year: "VI",
-    },
-  ];
+
+  let [fontsLoaded] = useFonts({
+    Urbanist_400Regular,
+    Urbanist_500Medium,
+    Urbanist_600SemiBold,
+    Urbanist_700Bold,
+    Urbanist_800ExtraBold,
+    Urbanist_900Black,
+  });
+
+  if (!fontsLoaded) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <ActivityIndicator size="small" />
+      </View>
+    );
+  }
   return (
     <SafeAreaView
       style={{
