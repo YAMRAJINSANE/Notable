@@ -55,14 +55,14 @@ const LoadingScreen = () => {
         backgroundColor: "white",
       }}
     >
-      <Text style={{ fontFamily: "Urbanist_800ExtraBold", fontSize: 50 }}>
+      <Text style={{ fontFamily: "Urbanist_800ExtraBold", fontSize: 30 }}>
         Notable.
       </Text>
       <Text style={{ fontFamily: "Urbanist_600SemiBold" }}>Loading</Text>
 
       {isLoading ? null : (
         <View className="absolute bottom-10">
-          <Text style={{ fontFamily: "Urbanist_400Regular", fontSize: 14 }}>
+          <Text style={{ fontFamily: "Urbanist_400Regular", fontSize: 11 }}>
             Check you Network Connection and Try Again.
           </Text>
         </View>

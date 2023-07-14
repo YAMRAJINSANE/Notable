@@ -53,9 +53,9 @@ const Comuni = ({ route, navigation }) => {
     setColumnWidth(SIZES.width / numColumns);
   }, []);
 
-  const sortedData = PostCom.sort(
-    (a, b) => contributionCountMap[b._id] - contributionCountMap[a._id]
-  );
+  const sortedData = PostCom.filter(
+    (item) => contributionCountMap[item._id] > 0
+  ).sort((a, b) => contributionCountMap[b._id] - contributionCountMap[a._id]);
 
   let [fontsLoaded] = useFonts({
     Urbanist_400Regular,
@@ -122,6 +122,10 @@ const Comuni = ({ route, navigation }) => {
                     imageUri: urlFor(item.image).url(),
                     colllege: item.colllege,
                     sem: item.sem,
+                    Condition: "true",
+                    filteredPosts: Post.filter(
+                      (post) => post.community?._id === item._id
+                    ),
                   })
                 }
               >

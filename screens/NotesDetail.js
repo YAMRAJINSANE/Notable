@@ -169,6 +169,7 @@ const NotesDetail = ({ route, navigation }) => {
                               imageUri: urlFor(item.community.image).url(),
                               colllege: item.community.colllege,
                               sem: item.community.sem,
+                              Condition: "false",
                             })
                           }
                           className="flex justify-end items-end mt-2 w-full"

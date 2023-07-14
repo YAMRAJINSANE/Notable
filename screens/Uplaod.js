@@ -103,6 +103,22 @@ const Uplaod = () => {
               fontSize: 20,
             }}
           >
+            Study Material / Book Pdf / Pyq
+          </Text>
+          <Text
+            style={{
+              fontFamily: "Urbanist_900Black",
+              fontSize: 20,
+            }}
+          >
+            Or anything related to Study
+          </Text>
+          <Text
+            style={{
+              fontFamily: "Urbanist_900Black",
+              fontSize: 20,
+            }}
+          >
             & Be a Part of Our Community.
           </Text>
           <Text style={{ fontFamily: "Urbanist_500Medium", fontSize: 15 }}>
