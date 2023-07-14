@@ -21,6 +21,8 @@ import Subject from "../../screens/Subject";
 import NotesCategory from "../../screens/NotesCategory";
 import NotesDetail from "../../screens/NotesDetail";
 import Uplaod from "../../screens/Uplaod";
+import ProgramName from "../../screens/ProgramName";
+import Desk from "../../screens/Desk";
 
 const Stack = createStackNavigator();
 
@@ -121,6 +123,28 @@ function HomeStack() {
         }}
         name="Uplaod"
         component={Uplaod}
+      />
+      <Stack.Screen
+        options={{
+          title: "Notable",
+          headerShown: true,
+          headerTitleStyle: {
+            fontFamily: "Urbanist_900Black",
+          },
+        }}
+        name="ProgramName"
+        component={ProgramName}
+      />
+      <Stack.Screen
+        options={{
+          title: "Notable",
+          headerShown: true,
+          headerTitleStyle: {
+            fontFamily: "Urbanist_900Black",
+          },
+        }}
+        name="Desk"
+        component={Desk}
       />
     </Stack.Navigator>
   );

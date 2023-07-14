@@ -51,9 +51,9 @@ const Uplaod = () => {
       }}
     >
       <Image
-        source={require("../assets/icon.png")}
+        source={require("../assets/download.png")}
         className="rounded-md 
-          h-[200px] w-[200px] mt-16
+          h-[400px] w-[400px] mt-16
           "
       />
       <Text

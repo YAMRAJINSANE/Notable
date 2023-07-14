@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "tet",
-    "slug": "tet",
+    "name": "Notable",
+    "slug": "Notable",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -21,10 +21,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.aakashjnv0077.Notable"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "e0914ed5-167d-42a6-925c-ac2678f9a575"
+      }
     }
   }
 }

@@ -7,8 +7,8 @@ import {
   Pressable,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import { COLORS } from "../constant";
-import Entypo from "react-native-vector-icons/Ionicons";
+import { COLORS, SIZES } from "../constant";
+import Entypo from "react-native-vector-icons/FontAwesome5";
 import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import {
@@ -27,6 +27,7 @@ import LoadingScreen from "./Loading";
 const Home = ({ navigation }) => {
   const [PostFetched, setPostFetched] = useState([]);
   const [CategoryFetch, setCategoryFetch] = useState([]);
+  const [CategoryFetchDesk, setCategoryFetchDesk] = useState([]);
   const [Loading, setLoading] = useState(true);
 
   const fetchData = async () => {
@@ -73,7 +74,8 @@ const Home = ({ navigation }) => {
       ]);
       console.log(postData);
       setPostFetched(postData);
-      setCategoryFetch(categoryData);
+      setCategoryFetch(categoryData.slice(0, 5));
+      setCategoryFetchDesk(categoryData);
 
       setLoading(false);
     } catch (error) {
@@ -96,12 +98,6 @@ const Home = ({ navigation }) => {
     Urbanist_900Black,
   });
 
-  const Data = [
-    { Course: "Science" },
-    { Course: "Commerce" },
-    { Course: "Arts" },
-    { Course: "Additional Courses" },
-  ];
   if (!fontsLoaded) {
     return (
       <View
@@ -126,7 +122,7 @@ const Home = ({ navigation }) => {
             width: COLORS.width,
             backgroundColor: "white",
             flex: 1,
-            paddingTop: 40,
+            paddingTop: 25,
             alignItems: "center",
             padding: 10,
           }}
@@ -140,7 +136,7 @@ const Home = ({ navigation }) => {
               Notable.
             </Text>
             <Pressable onPress={() => navigation.navigate("Uplaod")}>
-              <Entypo name="md-cloud-upload-outline" color="black" size={23} />
+              <Entypo name="cloud-upload-alt" color="black" size={23} />
             </Pressable>
           </View>
           {/* Card  */}
@@ -161,7 +157,12 @@ const Home = ({ navigation }) => {
             }}
           >
             {/* Text */}
-            <View style={{ flex: 1, justifyContent: "center" }}>
+            <View
+              style={{
+                justifyContent: "center",
+                // backgroundColor: "yellow",
+              }}
+            >
               <Text
                 style={{
                   fontFamily: "Urbanist_700Bold",
@@ -178,7 +179,6 @@ const Home = ({ navigation }) => {
                   fontSize: 13,
                   color: "white",
                   paddingHorizontal: 4,
-                  width: "90%",
                 }}
               >
                 Join the community &
@@ -189,14 +189,28 @@ const Home = ({ navigation }) => {
                   fontSize: 13,
                   color: "white",
                   paddingHorizontal: 4,
-                  width: "80%",
                 }}
               >
-                Share your notes with other students.
+                Share your notes with
+              </Text>
+              <Text
+                style={{
+                  fontFamily: "Urbanist_600SemiBold",
+                  fontSize: 13,
+                  color: "white",
+                }}
+              >
+                other students.
               </Text>
             </View>
             {/* Image */}
-            <View style={{ width: "40%" }}>
+            <View
+              style={{
+                // backgroundColor: "green",
+                overflow: "hidden",
+                borderRadius: 10,
+              }}
+            >
               <Image
                 source={require("../assets/feture.png")}
                 style={{ width: 150, height: "100%", marginRight: 5 }}
@@ -204,12 +218,32 @@ const Home = ({ navigation }) => {
             </View>
           </View>
           {/* List of subjects */}
-          <Text
-            className="text-xl p-2"
-            style={{ fontFamily: "Urbanist_700Bold", width: "100%" }}
-          >
-            Desk
-          </Text>
+          <View className=" w-full px-1 justify-between  items-center flex-row flex">
+            <Text
+              className="text-xl p-2"
+              style={{ fontFamily: "Urbanist_700Bold" }}
+            >
+              Desk
+            </Text>
+            <Pressable
+              onPress={() =>
+                navigation.navigate("Desk", {
+                  Cat: CategoryFetchDesk,
+                  Post: PostFetched,
+                })
+              }
+            >
+              <View className="px-1 flex flex-row  items-center">
+                <Text
+                  className="text-[15px] "
+                  style={{ fontFamily: "Urbanist_700Bold" }}
+                >
+                  See All
+                </Text>
+                <MaterialIcons name="navigate-next" size={22} color="black" />
+              </View>
+            </Pressable>
+          </View>
           <View
             style={{
               width: "100%",

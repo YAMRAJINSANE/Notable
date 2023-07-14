@@ -23,7 +23,7 @@ import {
   Urbanist_900Black,
 } from "@expo-google-fonts/urbanist";
 
-const NotesDetail = ({ route }) => {
+const NotesDetail = ({ route, navigation }) => {
   const { data, BillBord, Post, id, course, subject, category } = route.params;
 
   const filteredData = Post.filter(
@@ -127,7 +127,11 @@ const NotesDetail = ({ route }) => {
                 ? item.title.slice(0, 60) + "..."
                 : item.title;
             return (
-              <TouchableOpacity onPress={() => Linking.openURL(item.url)}>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate("ProgramName", { Url: item.url })
+                }
+              >
                 <View
                   style={{
                     borderWidth: 2,
