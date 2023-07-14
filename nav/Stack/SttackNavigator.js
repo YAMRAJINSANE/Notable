@@ -23,6 +23,8 @@ import NotesDetail from "../../screens/NotesDetail";
 import Uplaod from "../../screens/Uplaod";
 import ProgramName from "../../screens/ProgramName";
 import Desk from "../../screens/Desk";
+import Comuni from "../../screens/Comuni";
+import CommPerson from "../../screens/CommPerson";
 
 const Stack = createStackNavigator();
 
@@ -145,6 +147,28 @@ function HomeStack() {
         }}
         name="Desk"
         component={Desk}
+      />
+      <Stack.Screen
+        options={{
+          title: "Notable",
+          headerShown: true,
+          headerTitleStyle: {
+            fontFamily: "Urbanist_900Black",
+          },
+        }}
+        name="Comuni"
+        component={Comuni}
+      />
+      <Stack.Screen
+        options={{
+          title: "Notable",
+          headerShown: true,
+          headerTitleStyle: {
+            fontFamily: "Urbanist_900Black",
+          },
+        }}
+        name="CommPerson"
+        component={CommPerson}
       />
     </Stack.Navigator>
   );

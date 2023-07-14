@@ -29,7 +29,7 @@ const Home = ({ navigation }) => {
   const [CategoryFetch, setCategoryFetch] = useState([]);
   const [CategoryFetchDesk, setCategoryFetchDesk] = useState([]);
   const [Loading, setLoading] = useState(true);
-
+  const [ComunityData, setComunityData] = useState([]);
   const fetchData = async () => {
     try {
       const postPromise = client.fetch(`
@@ -53,7 +53,10 @@ const Home = ({ navigation }) => {
             _id,
             name
           },
-         
+         community->{
+            _id,
+            name
+          },
           uploadDate,
           url
         }
@@ -67,16 +70,31 @@ const Home = ({ navigation }) => {
         
         }
       `);
+      const comunityPromise = client.fetch(`
+        *[_type == "community"] |
+        order(_createdAt) {
+          _id,
+         name,
+        image,
+        description,
+        profileURL,
+        sem,
+        colllege
+        }
+      `);
 
-      const [postData, categoryData] = await Promise.all([
+      const [postData, categoryData, ComData] = await Promise.all([
         postPromise,
         coursePromise,
+        comunityPromise,
       ]);
+      console.log("======================");
       console.log(postData);
+      console.log("======================");
       setPostFetched(postData);
       setCategoryFetch(categoryData.slice(0, 5));
       setCategoryFetchDesk(categoryData);
-
+      setComunityData(ComData);
       setLoading(false);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -86,8 +104,6 @@ const Home = ({ navigation }) => {
   useEffect(() => {
     fetchData();
   }, []);
-
-  console.log(PostFetched);
 
   let [fontsLoaded] = useFonts({
     Urbanist_400Regular,
@@ -122,7 +138,7 @@ const Home = ({ navigation }) => {
             width: COLORS.width,
             backgroundColor: "white",
             flex: 1,
-            paddingTop: 25,
+            paddingTop: 30,
             alignItems: "center",
             padding: 10,
           }}
@@ -135,9 +151,29 @@ const Home = ({ navigation }) => {
             >
               Notable.
             </Text>
-            <Pressable onPress={() => navigation.navigate("Uplaod")}>
-              <Entypo name="cloud-upload-alt" color="black" size={23} />
-            </Pressable>
+            <View className="flex flex-row items-center justify-center space-x-2 mx-2">
+              <Pressable
+                onPress={() =>
+                  navigation.navigate("Comuni", {
+                    PostCom: ComunityData,
+                    Post: PostFetched,
+                  })
+                }
+              >
+                <View className="flex flex-row items-center justify-center space-x-1 ">
+                  <Text
+                    className="text-[16px]"
+                    style={{ fontFamily: "Urbanist_900Black" }}
+                  >
+                    Community
+                  </Text>
+                  <MaterialIcons name="people-alt" color="black" size={25} />
+                </View>
+              </Pressable>
+              <Pressable onPress={() => navigation.navigate("Uplaod")}>
+                <Entypo name="cloud-upload-alt" color="black" size={23} />
+              </Pressable>
+            </View>
           </View>
           {/* Card  */}
           <View

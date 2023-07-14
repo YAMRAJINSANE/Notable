@@ -6,7 +6,7 @@ import {
   Image,
   Linking,
 } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   useFonts,
   Urbanist_400Regular,
@@ -16,8 +16,36 @@ import {
   Urbanist_800ExtraBold,
   Urbanist_900Black,
 } from "@expo-google-fonts/urbanist";
+import client from "../Sanity/Sanity";
+import LoadingScreen from "./Loading";
 
 const Uplaod = () => {
+  const [FormUrl, setFormUrl] = useState([]);
+  const [Loading, setLoading] = useState(true);
+
+  const fetchData = async () => {
+    try {
+      const UrlPromise = client.fetch(`
+        *[_type == "formurl"] |
+        order(_createdAt) {
+         url
+        
+        }
+      `);
+
+      const [postData] = await Promise.all([UrlPromise]);
+      console.log(postData);
+      setFormUrl(postData);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   let [fontsLoaded] = useFonts({
     Urbanist_400Regular,
     Urbanist_500Medium,
@@ -50,42 +78,53 @@ const Uplaod = () => {
         backgroundColor: "white",
       }}
     >
-      <Image
-        source={require("../assets/download.png")}
-        className="rounded-md 
+      {Loading ? (
+        <LoadingScreen />
+      ) : (
+        <>
+          <Image
+            source={require("../assets/download.png")}
+            className="rounded-md 
           h-[400px] w-[400px] mt-16
           "
-      />
-      <Text
-        style={{
-          fontFamily: "Urbanist_900Black",
-          fontSize: 25,
-          marginTop: 20,
-        }}
-      >
-        To Uplaod Notes
-      </Text>
-      <Text style={{ fontFamily: "Urbanist_500Medium", fontSize: 15 }}>
-        Submit your notes on this Form
-      </Text>
-      <TouchableOpacity
-        onPress={() => Linking.openURL("https://forms.gle/1SxijM1sczT9smLM6")}
-      >
-        <Text
-          style={{
-            fontFamily: "Urbanist_800ExtraBold",
-            padding: 5,
-            paddingHorizontal: 10,
-            fontSize: 20,
-            borderRadius: 10,
-            borderWidth: 2,
-            borderColor: "black",
-            marginTop: 10,
-          }}
-        >
-          Google Form
-        </Text>
-      </TouchableOpacity>
+          />
+          <Text
+            style={{
+              fontFamily: "Urbanist_900Black",
+              fontSize: 25,
+              marginTop: 20,
+            }}
+          >
+            To Uplaod Notes
+          </Text>
+          <Text style={{ fontFamily: "Urbanist_500Medium", fontSize: 15 }}>
+            Submit your notes on this Form
+          </Text>
+          {FormUrl.map((g, index) => {
+            return (
+              <TouchableOpacity
+                key={index}
+                onPress={() => Linking.openURL(g.url)}
+              >
+                <Text
+                  style={{
+                    fontFamily: "Urbanist_800ExtraBold",
+                    padding: 5,
+                    paddingHorizontal: 10,
+                    fontSize: 20,
+                    borderRadius: 10,
+                    borderWidth: 2,
+                    borderColor: "black",
+                    marginTop: 10,
+                  }}
+                >
+                  Google Form
+                </Text>
+              </TouchableOpacity>
+            );
+          })}
+        </>
+      )}
     </View>
   );
 };
